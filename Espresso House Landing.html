@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Espresso House Presentkort 1.000kr</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+3:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --dark: #1a0e06;
+    --dark2: #2c1a0e;
+    --dark3: #3d2410;
+    --gold: #c8922a;
+    --gold2: #d4a03a;
+    --gold3: #e8b84a;
+    --cream: #f0e6d0;
+    --cream2: #f7f0e4;
+    --text-dark: #1a0e06;
+  }
+
+  html, body {
+    min-height: 100%;
+    background: #c8b89a;
+    font-family: 'Source Sans 3', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .phone-wrap {
+    width: 100%;
+    max-width: 420px;
+    min-height: 100vh;
+    background: var(--cream2);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.4);
+  }
+
+  /* ── TOP BANNER ── */
+  .top-banner {
+    width: 100%;
+    display: block;
+    line-height: 0;
+  }
+  .top-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    max-height: 90px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--dark);
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-cup svg {
+    width: 28px;
+    height: 28px;
+  }
+  .logo-text {
+    color: #fff;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    line-height: 1.35;
+  }
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    background: var(--dark);
+    padding: 32px 26px 0;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 140px 140px at 80% 18%, rgba(200,146,42,0.5) 0%, transparent 70%),
+      radial-gradient(ellipse 100px 100px at 15% 55%, rgba(200,146,42,0.3) 0%, transparent 70%),
+      radial-gradient(ellipse 220px 220px at 50% 45%, rgba(60,30,10,0.5) 0%, transparent 80%);
+    z-index: 0;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+  .hero-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(22px, 6vw, 28px);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 14px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  }
+  .hero-sub {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.65;
+    margin-bottom: 24px;
+    max-width: 310px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .btn-ansok {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold2), var(--gold3));
+    color: var(--dark);
+    font-family: 'Libre Baskerville', serif;
+    font-size: 17px;
+    font-weight: 700;
+    font-style: italic;
+    padding: 14px 52px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 22px rgba(200,146,42,0.5), 0 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.18s;
+    margin-bottom: 32px;
+    letter-spacing: 0.5px;
+  }
+  .btn-ansok:active { transform: scale(0.97); }
+
+  /* ── GIFT CARD IMAGE ── */
+  .card-section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+    z-index: 1;
+  }
+  .gift-card-wrap {
+    position: relative;
+    display: inline-block;
+  }
+  .gift-card-img {
+    width: 260px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 14px 44px rgba(0,0,0,0.5), 0 4px 14px rgba(0,0,0,0.3);
+    display: block;
+  }
+  .value-badge {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 72px;
+    height: 72px;
+    background: var(--cream2);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--dark);
+    line-height: 1.25;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+    border: 2.5px solid var(--gold);
+    z-index: 2;
+  }
+  .value-badge .vb-label { font-size: 10px; font-weight: 700; }
+  .value-badge .vb-amount { font-size: 13px; font-weight: 900; }
+
+  /* ── WAVE ── */
+  .wave-divider {
+    display: block;
+    width: 100%;
+    background: var(--dark);
+    line-height: 0;
+  }
+  .wave-divider svg { display: block; width: 100%; }
+
+  /* ── BODY ── */
+  .body-section {
+    background: var(--cream2);
+    padding: 30px 26px 0;
+  }
+  .how-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 24px;
+    font-weight: 700;
+    font-style: italic;
+    text-align: center;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+  }
+
+  /* ── STEPS ── */
+  .steps {
+    position: relative;
+    margin-bottom: 34px;
+    padding-left: 6px;
+  }
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 27px;
+    top: 30px;
+    bottom: 30px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), rgba(200,146,42,0.15));
+  }
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 12px 0;
+    position: relative;
+    z-index: 1;
+  }
+  .step-circle {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 2.5px solid var(--gold);
+    background: var(--cream2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-dark);
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(200,146,42,0.12);
+  }
+  .step-text {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  /* ── PRIZE BOX ── */
+  .prize-box {
+    background: linear-gradient(135deg, var(--dark2), var(--dark3));
+    border: 2.5px solid var(--gold);
+    border-radius: 14px;
+    padding: 22px 26px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 18px rgba(200,146,42,0.18);
+    position: relative;
+    overflow: hidden;
+  }
+  .prize-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(200,146,42,0.1) 0%, transparent 60%);
+  }
+  .prize-box-text {
+    position: relative;
+    z-index: 1;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 18px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--gold2);
+    line-height: 1.5;
+  }
+
+  /* ── BOTTOM CTA ── */
+  .bottom-cta {
+    padding: 0 26px 30px;
+    background: var(--cream2);
+  }
+  .btn-ansok-full {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold2), var(--gold3));
+    color: var(--dark);
+    font-family: 'Libre Baskerville', serif;
+    font-size: 18px;
+    font-weight: 700;
+    font-style: italic;
+    padding: 17px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 0 4px 22px rgba(200,146,42,0.4);
+    transition: transform 0.18s;
+    letter-spacing: 0.5px;
+  }
+  .btn-ansok-full:active { transform: scale(0.98); }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--dark);
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a {
+    color: rgba(255,255,255,0.6);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .footer-socials { display: flex; gap: 12px; align-items: center; }
+  .footer-socials svg { width: 24px; height: 24px; opacity: 0.75; }
+</style>
+</head>
+<body>
+<div class="phone-wrap">
+
+  <!-- ── TOP BANNER ── -->
+  <div class="top-banner">
+    <img src="https://cdn.abacus.ai/images/d70c8bcf-f6d0-464c-b9fb-1162362f4de9.png" alt="Espresso House Banner">
+  </div>
+
+  <!-- ── HEADER ── -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-cup">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 8 Q15 4 14 0" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M20 8 Q21 3 20 0" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M26 8 Q27 4 26 0" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <rect x="8" y="12" width="24" height="18" rx="3" fill="white"/>
+          <path d="M32 16 Q38 16 38 22 Q38 28 32 28" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <ellipse cx="20" cy="34" rx="16" ry="3" fill="white"/>
+        </svg>
+      </div>
+      <div class="logo-text">ESPRESSO<br>HOUSE</div>
+    </div>
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Ansök Om Ditt Espresso House Presentkort värt 1.000kr</h1>
+      <p class="hero-sub">Delta i vår kampanj och få chansen att vinna ett presentkort laddat med kaffeupplevelser!</p>
+      <a class="btn-ansok" href="https://x.trc91.com/aff_c?offer_id=564&aff_id=4174&url_id=10059" target="_blank">Ansök Nu</a>
+
+      <!-- Real Gift Card Photo -->
+      <div class="card-section">
+        <div class="gift-card-wrap">
+          <img class="gift-card-img" src="https://cdn.abacus.ai/images/bcaa7eab-fb04-4f64-b6d1-4729dad550fd.png" alt="Espresso House Presentkort">
+          <div class="value-badge">
+            <span class="vb-label">Värde</span>
+            <span class="vb-amount">1.000kr!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wave -->
+  <div class="wave-divider">
+    <svg viewBox="0 0 420 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,0 L420,0 L420,22 Q350,50 210,40 Q70,30 0,50 Z" fill="#f7f0e4"/>
+    </svg>
+  </div>
+
+  <!-- ── BODY ── -->
+  <div class="body-section">
+    <h2 class="how-title">Så här fungerar det</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-circle">1.</div>
+        <div class="step-text">Tryck på Ansök Nu</div>
+      </div>
+      <div class="step">
+        <div class="step-circle">2.</div>
+        <div class="step-text">Registrera Dig</div>
+      </div>
+      <div class="step">
+        <div class="step-circle">3.</div>
+        <div class="step-text">Vinn 1.000kr Presentkort</div>
+      </div>
+    </div>
+    <div class="prize-box">
+      <div class="prize-box-text">Vinst: 1.000kr — Gäller<br>på alla Espresso House</div>
+    </div>
+  </div>
+
+  <!-- ── BOTTOM CTA ── -->
+  <div class="bottom-cta">
+    <a class="btn-ansok-full" href="https://x.trc91.com/aff_c?offer_id=564&aff_id=4174&url_id=10059" target="_blank">Ansök Nu</a>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer">
+    <div class="footer-links">
+      <a href="#">Butiker</a>
+      <a href="#">Erbjudande</a>
+      <a href="#">Hållbarhet</a>
+    </div>
+    <div class="footer-socials">
+      <!-- Instagram -->
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" stroke-width="1.8"/>
+        <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/>
+        <circle cx="17.5" cy="6.5" r="1.2" fill="white"/>
+      </svg>
+      <!-- Facebook -->
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 2H15C13.3 2 12 3.3 12 5V8H9V12H12V22H16V12H19L20 8H16V5C16 4.4 16.4 4 17 4H20V2H18Z"/>
+      </svg>
+      <!-- TikTok -->
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/>
+      </svg>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
