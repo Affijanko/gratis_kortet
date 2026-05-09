@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>St1 Presentkort – Hämta Nu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#E31E24;--red-dark:#C41A20;--yellow:#FDB913;--green:#2ECC71;--black:#1A1A1A;--gray:#6B7280;--light-gray:#F3F4F6;--white:#FFFF}
+body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--black);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.container{max-width:480px;margin:0 auto;padding:24px 20px 100px}
+
+/* Logo */
+.logo-wrap{text-align:center;margin-bottom:28px}
+.logo-wrap img{width:120px;height:auto}
+
+/* Header */
+.header{text-align:center;margin-bottom:32px}
+.header h1{font-size:24px;font-weight:800;line-height:1.2;margin-bottom:8px;color:var(--black)}
+.header p{font-size:14px;color:var(--gray);font-weight:400;line-height:1.5}
+
+/* Steps */
+.steps{display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+.step{display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid #E5E7EB;border-radius:14px;padding:16px;transition:transform .2s,box-shadow .2s}
+.step:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.step-num{flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--red);border:3px solid var(--yellow);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--white)}
+.step-text{font-size:14px;font-weight:500;color:var(--black);line-height:1.4}
+
+/* CTA Button */
+.cta-wrap{text-align:center;margin-bottom:32px}
+.cta-btn{display:inline-block;width:100%;max-width:340px;padding:18px 32px;background:var(--red);color:var(--white);font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;letter-spacing:1.5px;text-decoration:none;border:3px solid var(--yellow);border-radius:60px;box-shadow:0 6px 24px rgba(227,30,36,.35);transition:transform .15s,box-shadow .15s;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.cta-btn:active{transform:scale(.97);box-shadow:0 2px 10px rgba(227,30,36,.25)}
+.cta-disclaimer{font-size:11px;color:var(--gray);margin-top:12px;line-height:1.5;padding:0 10px}
+
+/* FAQ */
+.faq-section{margin-bottom:40px}
+.faq-title{text-align:center;font-size:20px;font-weight:700;color:var(--red);margin-bottom:18px;position:relative;display:inline-block;width:100%}
+.faq-title::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:50px;height:3px;background:var(--yellow);border-radius:2px}
+.faq-item{background:var(--light-gray);border-radius:12px;margin-bottom:10px;overflow:hidden;transition:box-shadow .2s}
+.faq-item.active{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+.faq-q span{font-size:14px;font-weight:600;color:var(--black);flex:1}
+.faq-chevron{width:20px;height:20px;transition:transform .3s ease;flex-shrink:0;margin-left:10px}
+.faq-chevron svg{width:100%;height:100%;fill:none;stroke:var(--gray);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.faq-item.active .faq-chevron{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
+.faq-a-inner{padding:0 18px 16px;font-size:13px;color:var(--gray);line-height:1.6}
+
+/* Social proof (static bottom bar) */
+.social-proof{display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid #E5E7EB;border-radius:12px;padding:14px 16px;margin-bottom:20px}
+.sp-icon{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center}
+.sp-icon svg{width:18px;height:18px;fill:none;stroke:var(--white);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.sp-text{font-size:12px;color:var(--black);line-height:1.4}
+.sp-text strong{font-weight:600}
+
+/* Toast notification */
+.toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:380px;background:var(--white);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.15);z-index:9999;transform:translateY(120%);opacity:0;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .45s ease;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-icon{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center}
+.toast-icon svg{width:18px;height:18px;fill:none;stroke:var(--white);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.toast-msg{font-size:12px;color:var(--black);line-height:1.4;font-weight:500}
+
+@media(min-width:520px){
+  .container{padding:40px 32px 100px}
+  .header h1{font-size:28px}
+  .cta-btn{font-size:22px;padding:20px 40px}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Logo -->
+  <div class="logo-wrap">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/St1_logo.svg/1280px-St1_logo.svg.png" alt="St1 Logo">
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Slutför Din Registrering</h1>
+    <p>Följ dessa steg för att hämta ditt St1 presentkort</p>
+  </div>
+
+  <!-- Steps -->
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">Klicka på "Hämta Nu"</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">Ange din e-post och grundläggande info</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">Verifiera din information</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">Njut av ditt St1 presentkort!</div>
+    </div>
+  </div>
+
+  <!-- CTA Button -->
+  <div class="cta-wrap">
+    <a href="https://x.trc91.com/aff_c?offer_id=564&aff_id=4174&url_id=9766" class="cta-btn" target="_blank" rel="noopener">HÄMTA NU</a>
+    <p class="cta-disclaimer">Genom att klicka på "Hämta Nu" godkänner du att slutföra registreringen för att få ditt presentkort.</p>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="faq-title">FAQ</div>
+    <div style="margin-top:24px">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Hur fungerar det?</span>
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Klicka på "Hämta Nu", ange dina uppgifter och slutför registreringen. Ditt St1 presentkort skickas sedan direkt till din e-post.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Är det här erbjudandet legitimt?</span>
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Ja! Detta är ett riktigt belöningsprogram från våra marknadsföringspartners. Tusentals personer har redan hämtat sina presentkort.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Hur lång tid tar det?</span>
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Hela processen tar bara några minuter. Fyll i dina uppgifter, verifiera din information och ditt presentkort levereras omgående.</div></div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">
+  <div class="toast-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+  <div class="toast-msg" id="toast-msg"></div>
+</div>
+
+<script>
+/* FAQ accordion */
+function toggleFaq(el){
+  var item=el.parentElement;
+  var ans=item.querySelector('.faq-a');
+  var isActive=item.classList.contains('active');
+  document.querySelectorAll('.faq-item').forEach(function(i){
+    i.classList.remove('active');
+    i.querySelector('.faq-a').style.maxHeight=null;
+  });
+  if(!isActive){
+    item.classList.add('active');
+    ans.style.maxHeight=ans.scrollHeight+'px';
+  }
+}
+
+/* Toast notification system */
+var firstNames=["Erik","Anna","Lars","Sofia","Johan","Maria","Anders","Emma","Magnus","Linnéa","Oscar","Hanna","Karl","Elin","Niklas","Frida","Gustav","Maja","Henrik","Ida","Viktor","Klara"];
+var lastInits=["L","S","A","B","K","N","M","P","J","H","G","F","R","D","T","E","W","O","C","Z"];
+var cities=["Stockholm","Göteborg","Malmö","Uppsala","Linköping","Örebro","Västerås","Helsingborg","Norrköping","Jönköping","Umeå","Lund","Borås","Sundsvall","Gävle","Karlstad"];
+
+function randomFrom(arr){return arr[Math.floor(Math.random()*arr.length)]}
+
+function showToast(){
+  var name=randomFrom(firstNames)+" "+randomFrom(lastInits)+".";
+  var city=randomFrom(cities);
+  var msg=name+" från "+city+" har precis hämtat sitt presentkort";
+  var toast=document.getElementById('toast');
+  var toastMsg=document.getElementById('toast-msg');
+  toastMsg.textContent=msg;
+  toast.classList.add('show');
+  setTimeout(function(){toast.classList.remove('show')},4500);
+}
+
+
+
+/* Start toast cycle after initial delay */
+setTimeout(function(){
+  showToast();
+  setInterval(showToast,7000);
+},3000);
+
+
+</script>
+</body>
+</html>
