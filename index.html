@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sephora Beauty Box – Exklusiv kampanj</title>
+  <meta name="description" content="Svara på några korta frågor och se om du kvalificerar dig för en exklusiv Sephora Beauty Box." />
+
+  <style>
+    /* ─────────────────────────────────────────────
+       DESIGN TOKENS
+    ───────────────────────────────────────────── */
+    :root {
+      --black:        #000000;
+      --white:        #FFFFFF;
+      --red:          #C8102E;      /* Sephora red accent */
+      --red-dark:     #a00d24;
+      --gray-bg:      #F5F5F5;
+      --gray-border:  #E0E0E0;
+      --gray-text:    #555555;
+      --gray-light:   #888888;
+      --beige:        #F7EDE2;
+      --progress-bg:  #E0E0E0;
+
+      --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --radius-pill: 50px;
+      --radius-card: 16px;
+      --transition: 0.25s ease;
+    }
+
+    /* ─────────────────────────────────────────────
+       RESET & BASE
+    ───────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--gray-bg);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+    }
+
+    /* ─────────────────────────────────────────────
+       FRAME — centers mobile layout on desktop
+    ───────────────────────────────────────────── */
+    .app-frame {
+      width: 100%;
+      max-width: 460px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* ─────────────────────────────────────────────
+       HEADER
+    ───────────────────────────────────────────── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-border);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* CSS wordmark — spaced uppercase, mimicking Sephora logotype */
+    .brand-wordmark {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--black);
+      line-height: 1;
+      text-decoration: none;
+      /* Shift left slightly to optically balance the right letter-spacing */
+      padding-right: 0.35em;
+    }
+
+    /* ─────────────────────────────────────────────
+       MAIN CONTENT
+    ───────────────────────────────────────────── */
+    main {
+      flex: 1;
+      padding: 24px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ─────────────────────────────────────────────
+       CARD — shared white rounded panel
+    ───────────────────────────────────────────── */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--gray-border);
+      overflow: hidden;
+    }
+
+    /* ─────────────────────────────────────────────
+       HERO / PRODUCT IMAGE SECTION
+    ───────────────────────────────────────────── */
+    .hero-card {
+      padding: 0;
+    }
+
+    /* CSS/SVG beauty box illustration container */
+    .hero-illustration {
+      width: 100%;
+      background: var(--beige);
+      padding: 28px 20px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* SVG beauty-box mockup is inline below */
+    .hero-illustration svg {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+    }
+
+    .hero-text {
+      padding: 20px 20px 24px;
+    }
+
+    .hero-headline {
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.3;
+      color: var(--black);
+      margin-bottom: 10px;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--gray-text);
+    }
+
+    /* ─────────────────────────────────────────────
+       QUIZ CARD
+    ───────────────────────────────────────────── */
+    .quiz-card {
+      padding: 0;
+    }
+
+    /* Progress bar track */
+    .progress-track {
+      width: 100%;
+      height: 5px;
+      background: var(--progress-bg);
+      border-radius: 3px 3px 0 0;
+      overflow: hidden;
+    }
+
+    /* Progress fill — gradient red → black */
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--red) 0%, #111 100%);
+      border-radius: 3px;
+      transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Progress label */
+    .progress-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray-light);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 12px 20px 0;
+    }
+
+    /* Question area */
+    .question-area {
+      padding: 14px 20px 24px;
+      /* fade/slide animation handled via JS class */
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .question-area.fade-out {
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+
+    .question-area.fade-in {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .question-text {
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: var(--black);
+      margin-bottom: 18px;
+    }
+
+    /* Answer buttons list */
+    .answers-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+    }
+
+    /* Single pill-shaped answer button */
+    .answer-btn {
+      width: 100%;
+      min-height: 52px;
+      padding: 14px 20px;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 700;
+      border: 2px solid var(--black);
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      text-align: center;
+      line-height: 1.2;
+      transition: background var(--transition), color var(--transition), transform 0.12s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .answer-btn:hover,
+    .answer-btn:focus-visible {
+      background: var(--red);
+      border-color: var(--red);
+      outline: none;
+    }
+
+    .answer-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Scale buttons — displayed in a row */
+    .scale-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .scale-row .answer-btn {
+      flex: 1;
+      padding: 14px 6px;
+      font-size: 14px;
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--gray-light);
+    }
+
+    /* ─────────────────────────────────────────────
+       ANALYZING / LOADING SCREEN
+    ───────────────────────────────────────────── */
+    .analyzing-screen {
+      display: none; /* shown via JS */
+      padding: 60px 20px;
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* CSS spinner */
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--gray-border);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .analyzing-text {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .analyzing-sub {
+      font-size: 13px;
+      color: var(--gray-text);
+    }
+
+    /* ─────────────────────────────────────────────
+       REWARD REVEAL SECTION
+    ───────────────────────────────────────────── */
+    .reward-card {
+      display: none; /* shown via JS */
+      padding: 28px 20px 28px;
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .reward-emoji {
+      font-size: 48px;
+      line-height: 1;
+    }
+
+    .reward-headline {
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.3;
+      color: var(--black);
+    }
+
+    .reward-sub {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--gray-text);
+    }
+
+    /* Main CTA button */
+    .cta-btn {
+      display: block;
+      width: 100%;
+      padding: 18px 20px;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 800;
+      text-align: center;
+      text-decoration: none;
+      border-radius: var(--radius-pill);
+      border: 2px solid var(--black);
+      transition: background var(--transition), color var(--transition);
+      -webkit-tap-highlight-color: transparent;
+      letter-spacing: 0.02em;
+      margin-top: 4px;
+    }
+
+    .cta-btn:hover,
+    .cta-btn:focus-visible {
+      background: var(--red);
+      border-color: var(--red);
+      outline: none;
+    }
+
+    .urgency-text {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--red);
+      margin-top: -6px;
+    }
+
+    /* ─────────────────────────────────────────────
+       SOCIAL PROOF ROW
+    ───────────────────────────────────────────── */
+    .social-proof {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 20px 0;
+    }
+
+    .stars {
+      font-size: 18px;
+      color: var(--red);
+      letter-spacing: 2px;
+    }
+
+    .social-text {
+      font-size: 12px;
+      color: var(--gray-text);
+      text-align: center;
+    }
+
+    /* ─────────────────────────────────────────────
+       FAQ SECTION
+    ───────────────────────────────────────────── */
+    .faq-section {
+      padding: 0;
+    }
+
+    .faq-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 20px 20px 14px;
+      border-bottom: 1px solid var(--gray-border);
+      color: var(--black);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Accordion trigger */
+    .faq-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--black);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .faq-trigger:focus-visible {
+      outline: 2px solid var(--red);
+      outline-offset: -2px;
+    }
+
+    /* Chevron icon — pure CSS */
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-chevron svg {
+      display: block;
+    }
+
+    .faq-trigger[aria-expanded="true"] .faq-chevron {
+      transform: rotate(180deg);
+    }
+
+    /* Accordion content — smooth height animation */
+    .faq-content {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  padding 0.25s ease;
+      opacity: 0;
+      padding: 0 20px;
+    }
+
+    .faq-content.open {
+      max-height: 300px;
+      opacity: 1;
+      padding: 0 20px 16px;
+    }
+
+    .faq-content p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--gray-text);
+    }
+
+    /* ─────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────── */
+    footer {
+      background: var(--white);
+      border-top: 1px solid var(--gray-border);
+      padding: 24px 20px 32px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-disclaimer {
+      font-size: 11px;
+      line-height: 1.6;
+      color: var(--gray-light);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      font-size: 11px;
+      color: var(--gray-light);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+      color: var(--black);
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: var(--gray-light);
+    }
+
+    /* ─────────────────────────────────────────────
+       UTILITY — hide/show sections
+    ───────────────────────────────────────────── */
+    .hidden { display: none !important; }
+
+    /* flex-display shorthand for JS toggling */
+    .flex { display: flex !important; }
+
+    /* ─────────────────────────────────────────────
+       RESPONSIVE GUARD — no horizontal scroll
+    ───────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .brand-wordmark { font-size: 19px; }
+      .question-text  { font-size: 16px; }
+      .hero-headline  { font-size: 18px; }
+      .reward-headline{ font-size: 19px; }
+    }
+
+    /* Desktop gray surround */
+    @media (min-width: 461px) {
+      body { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-frame">
+
+  <!-- ════════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════════ -->
+  <header class="site-header" role="banner">
+    <span class="brand-wordmark" aria-label="Sephora">SEPHORA</span>
+  </header>
+
+  <!-- ════════════════════════════════════════════
+       MAIN
+  ═══════════════════════════════════════════════ -->
+  <main id="main-content">
+
+    <!-- ── HERO CARD ── -->
+    <section class="card hero-card" aria-label="Kampanjinformation">
+
+      <!-- CSS/SVG beauty box illustration — no copyrighted images -->
+      <div class="hero-illustration" aria-hidden="true">
+        <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sephora Beauty Box illustration">
+          <!-- Box base -->
+          <rect x="20" y="100" width="240" height="90" rx="6" fill="#1a1a1a"/>
+          <!-- Box inner shadow -->
+          <rect x="20" y="100" width="240" height="10" rx="4" fill="#000"/>
+          <!-- Box lid — open, angled back -->
+          <path d="M20,100 L40,30 L240,30 L260,100 Z" fill="#2a2a2a" />
+          <!-- Lid highlight stripe -->
+          <path d="M30,95 L48,32 L232,32 L250,95 Z" fill="#333" />
+          <!-- Red ribbon on lid -->
+          <rect x="127" y="28" width="26" height="68" rx="3" fill="var(--red)" opacity="0.9"/>
+          <rect x="20" y="92" width="240" height="14" rx="3" fill="var(--red)" opacity="0.9"/>
+
+          <!-- Beauty products silhouettes inside box -->
+          <!-- Bottle 1 (serum) -->
+          <rect x="45" y="65" width="24" height="50" rx="4" fill="#F7EDE2"/>
+          <rect x="51" y="58" width="12" height="12" rx="2" fill="#C0A080"/>
+          <rect x="54" y="52" width="6" height="10" rx="2" fill="#888"/>
+          <!-- Bottle 2 (moisturiser pump) -->
+          <rect x="82" y="72" width="30" height="43" rx="5" fill="#fff"/>
+          <rect x="93" y="60" width="8" height="16" rx="2" fill="#ccc"/>
+          <rect x="95" y="55" width="4" height="8" rx="1" fill="#aaa"/>
+          <!-- Small jar -->
+          <rect x="126" y="120" width="34" height="22" rx="4" fill="#F7EDE2"/>
+          <ellipse cx="143" cy="120" rx="17" ry="5" fill="#e8d5c0"/>
+          <!-- Mascara / lipstick thin tube -->
+          <rect x="175" y="68" width="12" height="48" rx="3" fill="#1a1a1a"/>
+          <rect x="176" y="58" width="10" height="14" rx="2" fill="var(--red)"/>
+          <!-- Palette / compact -->
+          <rect x="200" y="120" width="42" height="22" rx="4" fill="#2a2a2a"/>
+          <circle cx="212" cy="131" r="6" fill="var(--red)" opacity="0.8"/>
+          <circle cx="226" cy="131" r="6" fill="#F7EDE2"/>
+          <circle cx="240" cy="131" r="6" fill="#C0A080"/>
+
+          <!-- SEPHORA text label on box front -->
+          <text x="140" y="160" text-anchor="middle" font-family="Helvetica Neue,Helvetica,Arial,sans-serif"
+                font-size="11" font-weight="900" fill="#fff" letter-spacing="4">SEPHORA</text>
+          <text x="140" y="174" text-anchor="middle" font-family="Helvetica Neue,Helvetica,Arial,sans-serif"
+                font-size="8" fill="#aaa" letter-spacing="2">BEAUTY BOX</text>
+        </svg>
+      </div>
+
+      <!-- Intro copy -->
+      <div class="hero-text">
+        <h1 class="hero-headline">
+          🎁 Sephora har förberett en speciell överraskning till dig!
+        </h1>
+        <p class="hero-sub">
+          Svara på en kort enkät för att se om du är berättigad att få en exklusiv Sephora Beauty Box.
+          Antalet är begränsat — testa din lycka nu!
+        </p>
+      </div>
+    </section>
+
+    <!-- ── QUIZ CARD ── -->
+    <section class="card quiz-card" id="quiz-section" aria-label="Enkät" aria-live="polite">
+
+      <!-- Progress bar -->
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-bar-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <p class="progress-label" id="progress-label" aria-live="off">Fråga 1 av 7</p>
+
+      <!-- Question + answers — swapped by JS -->
+      <div class="question-area fade-in" id="question-area">
+        <!-- dynamically rendered -->
+      </div>
+
+      <!-- Analyzing screen — hidden until last question answered -->
+      <div class="analyzing-screen" id="analyzing-screen" role="status" aria-live="assertive">
+        <div class="spinner" aria-hidden="true"></div>
+        <p class="analyzing-text">Analyserar dina svar...</p>
+        <p class="analyzing-sub">Vi hittar din personliga rekommendation.</p>
+      </div>
+
+    </section>
+
+    <!-- ── REWARD REVEAL CARD — hidden until analysis complete ── -->
+    <section class="card reward-card" id="reward-card" aria-label="Resultat" aria-live="polite">
+      <div class="reward-emoji" aria-hidden="true">🎉</div>
+      <h2 class="reward-headline">
+        Grattis! Du är kvalificerad att delta i vår Sephora Beauty Box-kampanj.
+      </h2>
+      <p class="reward-sub">
+        Baserat på dina svar har du chansen att få en exklusiv Sephora Beauty Box.
+        Antalet platser är begränsat — agera nu!
+      </p>
+
+      <!-- Main CTA — affiliate link -->
+      <a
+        href="https://x.trc91.com/aff_c?offer_id=564&aff_id=4174&url_id=15679"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="cta-btn"
+        aria-label="Hämta min Sephora Beauty Box"
+      >
+        Hämta min Sephora Beauty Box →
+      </a>
+
+      <p class="urgency-text">⚡ Endast ett fåtal platser kvar idag.</p>
+
+      <!-- Social proof -->
+      <div class="social-proof">
+        <div class="stars" aria-label="5 av 5 stjärnor">★★★★★</div>
+        <p class="social-text">12 458 personer har redan deltagit den här månaden</p>
+      </div>
+    </section>
+
+    <!-- ── FAQ CARD ── -->
+    <section class="card faq-section" aria-label="Vanliga frågor">
+      <h2 class="faq-title">Vanliga frågor</h2>
+
+      <!-- FAQ Item 1 -->
+      <div class="faq-item">
+        <button
+          class="faq-trigger"
+          aria-expanded="false"
+          aria-controls="faq-1"
+          id="faq-trigger-1"
+        >
+          Hur lång tid tar enkäten?
+          <span class="faq-chevron" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-content" id="faq-1" role="region" aria-labelledby="faq-trigger-1" hidden>
+          <p>Det tar bara någon minut att svara på alla frågor.</p>
+        </div>
+      </div>
+
+      <!-- FAQ Item 2 -->
+      <div class="faq-item">
+        <button
+          class="faq-trigger"
+          aria-expanded="false"
+          aria-controls="faq-2"
+          id="faq-trigger-2"
+        >
+          Är detta verkligen gratis?
+          <span class="faq-chevron" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-content" id="faq-2" role="region" aria-labelledby="faq-trigger-2" hidden>
+          <p>Ja, det kostar inget att delta i enkäten och se om du kvalificerar dig.</p>
+        </div>
+      </div>
+
+      <!-- FAQ Item 3 -->
+      <div class="faq-item">
+        <button
+          class="faq-trigger"
+          aria-expanded="false"
+          aria-controls="faq-3"
+          id="faq-trigger-3"
+        >
+          När får jag min box om jag kvalificerar mig?
+          <span class="faq-chevron" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-content" id="faq-3" role="region" aria-labelledby="faq-trigger-3" hidden>
+          <p>Information om nästa steg visas direkt efter att du har slutfört enkäten.</p>
+        </div>
+      </div>
+
+    </section>
+
+  </main><!-- /main -->
+
+  <!-- ════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer role="contentinfo">
+    <nav class="footer-links" aria-label="Sidfotslänkar">
+      <a href="#">Integritet</a>
+      <a href="#">Villkor</a>
+      <a href="#">Kontakt</a>
+    </nav>
+    <p class="footer-copy">© 2026</p>
+  </footer>
+
+</div><!-- /app-frame -->
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     JAVASCRIPT — Quiz Engine
+══════════════════════════════════════════════════════════════════ -->
+<script>
+  /*
+   * QUIZ DATA
+   * ─────────────────────────────────────────────────────────────
+   * Each question object:
+   *   { text: string, type: 'list' | 'scale', answers: string[] }
+   *
+   * For type 'scale', answers should be 5 items (values 1-5).
+   * To edit questions/answers, only modify this array.
+   */
+  const QUESTIONS = [
+    {
+      // Q1 — profiling, zero-friction opener
+      text: '1. Vilken hudtyp har du?',
+      type: 'list',
+      answers: [
+        'Torr hud',
+        'Fet hud',
+        'Kombinerad hud',
+        'Känslig hud',
+        'Vet ej'
+      ]
+    },
+    {
+      // Q2 — profiling
+      text: '2. Vilken Sephora-kategori handlar du oftast i?',
+      type: 'list',
+      answers: [
+        'Hudvård',
+        'Makeup',
+        'Parfym',
+        'Hårvård',
+        'Kroppsvård'
+      ]
+    },
+    {
+      // Q3 — problem deepening
+      text: '3. Hur ofta känner du att din nuvarande hudvårdsrutin inte räcker till?',
+      type: 'list',
+      answers: [
+        'Varje dag',
+        'Några gånger i veckan',
+        'Ibland',
+        'Sällan',
+        'Aldrig'
+      ]
+    },
+    {
+      // Q4 — scale question (satisfaction 1-5)
+      text: '4. Hur nöjd är du med din nuvarande hudvårdsrutin?',
+      type: 'scale',
+      scaleMin: 'Inte alls nöjd',
+      scaleMax: 'Mycket nöjd',
+      answers: ['1', '2', '3', '4', '5']
+    },
+    {
+      // Q5 — belief surfacing / failed solutions
+      text: '5. Vad har hindrat dig från att hitta rätt produkter tidigare?',
+      type: 'list',
+      answers: [
+        'För dyrt',
+        'Svårt att veta vad som passar min hud',
+        'Har inte hunnit testa',
+        'Blivit besviken på tidigare produkter',
+        'Annat'
+      ]
+    },
+    {
+      // Q6 — purchase frequency (matches reference screenshot)
+      text: '6. Hur ofta köper du nya skönhetsprodukter?',
+      type: 'list',
+      answers: [
+        'Varje vecka',
+        '2–3 gånger i månaden',
+        'En gång i månaden',
+        'Bara vid kampanjer',
+        'Sällan'
+      ]
+    },
+    {
+      // Q7 — final qualifying question
+      text: '7. Vill du få möjlighet att testa en exklusiv Sephora Beauty Box innan den släpps officiellt?',
+      type: 'list',
+      answers: [
+        'Ja, absolut!',
+        'Ja, gärna',
+        'Kanske'
+      ]
+    }
+  ];
+
+  /* ─────────────────────────────────────────────
+     STATE
+  ───────────────────────────────────────────── */
+  let currentIndex = 0; // which question we're on (0-based)
+
+  /* ─────────────────────────────────────────────
+     DOM REFERENCES
+  ───────────────────────────────────────────── */
+  const progressFill    = document.getElementById('progress-fill');
+  const progressTrack   = document.getElementById('progress-bar-track');
+  const progressLabel   = document.getElementById('progress-label');
+  const questionArea    = document.getElementById('question-area');
+  const analyzingScreen = document.getElementById('analyzing-screen');
+  const rewardCard      = document.getElementById('reward-card');
+  const quizSection     = document.getElementById('quiz-section');
+
+  /* ─────────────────────────────────────────────
+     RENDER A QUESTION
+  ───────────────────────────────────────────── */
+  function renderQuestion(index) {
+    const q     = QUESTIONS[index];
+    const total = QUESTIONS.length;
+
+    // Update progress bar
+    const pct = Math.round(((index) / total) * 100);
+    progressFill.style.width = pct + '%';
+    progressTrack.setAttribute('aria-valuenow', pct);
+    progressLabel.textContent = `Fråga ${index + 1} av ${total}`;
+
+    // Build HTML for this question
+    let html = `<h2 class="question-text">${escHtml(q.text)}</h2>`;
+
+    if (q.type === 'scale') {
+      // Scale row — 5 numbered buttons with min/max labels
+      html += `<div class="scale-row" role="group" aria-label="${escHtml(q.text)}">`;
+      q.answers.forEach((val) => {
+        html += `
+          <button
+            class="answer-btn"
+            data-index="${index}"
+            data-value="${escHtml(val)}"
+            aria-label="Betyg ${val}"
+          >${escHtml(val)}</button>`;
+      });
+      html += `</div>`;
+      html += `<div class="scale-labels">
+                 <span>${escHtml(q.scaleMin)}</span>
+                 <span>${escHtml(q.scaleMax)}</span>
+               </div>`;
+    } else {
+      // Standard list of pill buttons
+      html += `<ul class="answers-list" role="list" aria-label="Svarsalternativ">`;
+      q.answers.forEach((ans) => {
+        html += `
+          <li role="listitem">
+            <button
+              class="answer-btn"
+              data-index="${index}"
+              data-value="${escHtml(ans)}"
+            >${escHtml(ans)}</button>
+          </li>`;
+      });
+      html += `</ul>`;
+    }
+
+    // Apply fade-out, swap content, fade back in
+    questionArea.classList.remove('fade-in');
+    questionArea.classList.add('fade-out');
+
+    // Short delay lets CSS transition play before DOM swap
+    setTimeout(() => {
+      questionArea.innerHTML = html;
+
+      // Attach click listeners to the newly rendered buttons
+      questionArea.querySelectorAll('.answer-btn').forEach((btn) => {
+        btn.addEventListener('click', handleAnswer);
+      });
+
+      questionArea.classList.remove('fade-out');
+      questionArea.classList.add('fade-in');
+    }, 220);
+  }
+
+  /* ─────────────────────────────────────────────
+     HANDLE ANSWER SELECTION
+  ───────────────────────────────────────────── */
+  function handleAnswer(e) {
+    // Disable all buttons to prevent double-tap
+    quizSection.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
+
+    currentIndex++;
+
+    if (currentIndex < QUESTIONS.length) {
+      // More questions — render the next one
+      renderQuestion(currentIndex);
+    } else {
+      // All questions answered — show analyzing screen
+      showAnalyzing();
+    }
+  }
+
+  /* ─────────────────────────────────────────────
+     SHOW ANALYZING SCREEN
+  ───────────────────────────────────────────── */
+  function showAnalyzing() {
+    // Set progress to 100%
+    progressFill.style.width = '100%';
+    progressTrack.setAttribute('aria-valuenow', 100);
+
+    // Hide question UI, show spinner
+    questionArea.style.display     = 'none';
+    progressLabel.style.display    = 'none';
+    analyzingScreen.style.display  = 'flex';
+
+    // After 2.5 s, transition to reward reveal
+    setTimeout(showReward, 2500);
+  }
+
+  /* ─────────────────────────────────────────────
+     SHOW REWARD REVEAL
+  ───────────────────────────────────────────── */
+  function showReward() {
+    // Hide the entire quiz card
+    quizSection.classList.add('hidden');
+
+    // Reveal reward card with flex layout
+    rewardCard.style.display = 'flex';
+
+    // Smooth scroll to reward
+    rewardCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ─────────────────────────────────────────────
+     FAQ ACCORDION
+  ───────────────────────────────────────────── */
+  document.querySelectorAll('.faq-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', function () {
+      const expanded   = this.getAttribute('aria-expanded') === 'true';
+      const contentId  = this.getAttribute('aria-controls');
+      const content    = document.getElementById(contentId);
+
+      // Close ALL other items first (one-open behaviour)
+      document.querySelectorAll('.faq-trigger').forEach((t) => {
+        if (t !== trigger) {
+          t.setAttribute('aria-expanded', 'false');
+          const c = document.getElementById(t.getAttribute('aria-controls'));
+          c.classList.remove('open');
+          c.setAttribute('hidden', '');
+        }
+      });
+
+      if (expanded) {
+        this.setAttribute('aria-expanded', 'false');
+        content.classList.remove('open');
+        content.setAttribute('hidden', '');
+      } else {
+        this.setAttribute('aria-expanded', 'true');
+        content.removeAttribute('hidden');
+        // Tiny rAF so 'hidden' removal is painted before transition fires
+        requestAnimationFrame(() => content.classList.add('open'));
+      }
+    });
+  });
+
+  /* ─────────────────────────────────────────────
+     UTILITY — basic HTML escaping
+  ───────────────────────────────────────────── */
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /* ─────────────────────────────────────────────
+     INIT — render the first question
+  ───────────────────────────────────────────── */
+  renderQuestion(0);
+</script>
+
+</body>
+</html>
